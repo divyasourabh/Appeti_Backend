@@ -1,0 +1,47 @@
+select * from category
+
+insert into category values(9090,-1,11000,'All','',curdate(),curdate());
+
+insert into category values(90901,9090,11000,'Sweets','',curdate(),curdate());
+insert into category values(90902,9090,11000,'Snacks','',curdate(),curdate());
+insert into category values(90903,9090,11000,'Namkeen','',curdate(),curdate());
+
+update category set parent_id=9090 where category_id>90900
+
+
+insert into product values(2301901,90901,1100122,'Chivda','The sweet and tangy taste of this snack food product with generous spread of KAJU, KISMIS, AND SALTED GROUNDNUTS suites every palate. The specially procured poha literally melts in your mouth. Have to eat it to feel the experience. Crunchy and fresh !!!!',curdate(),curdate());
+
+insert into product values(2301902,90902,1100132,'Bikaneri Papad','Papad is a thin crispy SNACK. It is one of the Indian traditional food items. It is a thin wafer made out of pulse flour, with added spices.',curdate(),curdate());
+
+insert into product values(2301903,90901,1100121,'Ice Halwa','Bombay ice halwa is a delicious Indian recipe served as a Dessert ',curdate(),curdate());
+
+insert into product values(2301904,90901,1100411,'Mysore Pak','Mysore pak is a rich sweet dish prepared in butter, from Southern India, usually served as dessert. It originated in Mysore. It is made of generous amounts of ghee, sugar, gram flour, and often cardamom.',curdate(),curdate());
+
+insert into product values(2301905,90903,1100311,'Ratlami Sev Namkeen','Ratlami sev is a popular fried and crisp snack made with gram flour,clove,pepper and other spices.This is a speciality from the city of Ratlam (Madhya Pradesh).',curdate(),curdate());
+
+desc ptitle
+
+insert into ptitle values (1090908,2301905,'sev1','The sweet and tangy taste of this snack food product with generous spread of KAJU, KISMIS, AND SALTED GROUNDNUTS suites every palate. The specially procured poha literally melts in your mouth. Have to eat it to feel the experience. Crunchy and fresh !!!!',1,curdate(),curdate());
+insert into ptitle values (1090909,2301905,'sev2','The sweet and tangy taste of this snack food product with generous spread of KAJU, KISMIS, AND SALTED GROUNDNUTS suites every palate. The specially procured poha literally melts in your mouth. Have to eat it to feel the experience. Crunchy and fresh !!!!',0,curdate(),curdate());
+insert into ptitle values (1090903,2301901,'Bhel','The sweet and tangy taste of this snack food product with generous spread of KAJU, KISMIS, AND SALTED GROUNDNUTS suites every palate. The specially procured poha literally melts in your mouth. Have to eat it to feel the experience. Crunchy and fresh !!!!',0,curdate(),curdate());
+
+insert into product_image(product_id,name,url,is_default) values (2301901,'bhel-chivda','resources/images/bhel-chivda-500x500-e1431435799387.jpg',1);
+insert into product_image(product_id,name,url,is_default) values (2301902,'bhel-chivda','resources/images/bhel-chivda-500x500-e1431435799387.jpg',1);
+insert into product_image(product_id,name,url,is_default) values (2301903,'bhel-chivda','resources/images/bhel-chivda-500x500-e1431435799387.jpg',1);
+insert into product_image(product_id,name,url,is_default) values (2301905,'bhel-chivda','resources/images/bhel-chivda-500x500-e1431435799387.jpg',1);
+
+insert into tag values(110,1090902,2301901,24,5,3,110,10,1,1,current_timestamp,current_timestamp)
+
+insert into tag values(111,1090902,2301901,24,5,3,110,10,1,1,current_timestamp,current_timestamp);
+insert into tag values(112,1090903,2301901,24,5,3,110,10,1,1,current_timestamp,current_timestamp);
+insert into tag values(113,1090903,2301901,24,5,3,110,10,1,1,current_timestamp,current_timestamp);
+
+insert into tag values(123,1090908,2301905,24,1,1,110,10,1,1,current_timestamp,current_timestamp);
+insert into tag values(124,1090909,2301905,24,2,1,110,10,1,1,current_timestamp,current_timestamp);
+insert into tag values(125,1090909,2301905,24,100,2,110,10,1,1,current_timestamp,current_timestamp);
+
+
+select product_id,max(ctr) max_ctr from base_ctr group by product_id order by max_ctr desc limit 9;
+insert into base_ctr values(2301901,1090901,23,5,0.24);
+insert into base_ctr values(2301901,1090902,15,2,0.20);
+insert into base_ctr values(2301901,1090903,13,4,0.33);

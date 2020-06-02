@@ -1,0 +1,47 @@
+desc node;
+
+insert into node values(11000,-1,'India','',0,true,curdate(),curdate());
+insert into node values(11001,11000,'Western India','',0,true,curdate(),curdate());
+insert into node values(11002,11000,'Eastern India','',0,true,curdate(),curdate());
+insert into node values(11003,11000,'Central India','',0,true,curdate(),curdate());
+insert into node values(11004,11000,'Southern India','',0,true,curdate(),curdate());
+insert into node values(11005,11000,'Northern India','',0,true,curdate(),curdate());
+
+insert into node values(110051,11005,'Uttar Pradesh','',0,true,curdate(),curdate());
+insert into node values(110052,11005,'Jammu & Kashmir','',0,true,curdate(),curdate());
+insert into node values(110053,11005,'Haryana','',0,true,curdate(),curdate());
+insert into node values(110054,11005,'Punjab','',0,true,curdate(),curdate());
+insert into node values(110055,11005,'Himachal Pradesh','',0,true,curdate(),curdate());
+insert into node values(110056,11005,'Uttarakhand','',0,true,curdate(),curdate());
+
+insert into node values(110041,11004,'Tamil Nadu','',0,true,curdate(),curdate());
+insert into node values(110042,11004,'Karnataka','',0,true,curdate(),curdate());
+insert into node values(110043,11004,'Andhra Pradesh','',0,true,curdate(),curdate());
+insert into node values(110044,11004,'Kerala','',0,true,curdate(),curdate());
+
+insert into node values(110011,11001,'Gujrat','',0,true,curdate(),curdate());
+insert into node values(110012,11001,'Maharashtra','',0,true,curdate(),curdate());
+insert into node values(110013,11001,'Rajasthan','',0,true,curdate(),curdate());
+
+insert into node values(1100511,110051,'Agra','',0,true,curdate(),curdate());
+insert into node values(1100131,110013,'Jaipur','',0,true,curdate(),curdate());
+insert into node values(1100121,110012,'Mumbai','',0,true,curdate(),curdate());
+insert into node values(1100411,110041,'Mysore','',0,true,curdate(),curdate());
+
+insert into node values(1100122,110012,'Pune','',0,true,curdate(),curdate());
+
+insert into node values(1100132,110013,'Bikaner','',0,true,curdate(),curdate());
+insert into node values(110031,11003,'Madhya Pradesh','',0,true,curdate(),curdate());
+insert into node values(1100311,110031,'Ratlam','',0,true,curdate(),curdate());
+
+
+
+desc node_image;
+
+insert into node_image (node_id,name,url,is_default) values (1100511,'Agra','resources/images/Tajmahal_Agra-300x190.jpg',1);
+insert into node_image (node_id,name,url,is_default) values (1100131,'Jaipur','resources/images/hawa-mahal-palace-300x221.jpg',1);
+insert into node_image (node_id,name,url,is_default) values (1100121,'Mumbai','resources/images/Mumbai_TajMahalHotel-300x187.jpg',1);
+insert into node_image (node_id,name,url,is_default) values (1100411,'Mysore','resources/images/Mysore_Palace_-300x183.jpg',1);
+
+
+

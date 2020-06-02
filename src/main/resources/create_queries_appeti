@@ -1,0 +1,76 @@
+create table login_info (id bigint not null auto_increment,user_id bigint ,email_address varchar(100) not null,password varchar(100) not null,ques1 varchar(100),ans1 varchar(100),ques2 varchar(100),ans2 varchar(100),creation_date timestamp default current_timestamp,hash_code varchar(100),active boolean default false,primary key(id))
+
+create table role (role_id bigint not null AUTO_INCREMENT,name varchar(100),permission_xml varchar(1000),creation_date timestamp default current_timestamp,primary key(role_id))
+
+create table user_ (user_id bigint NOT NULL AUTO_INCREMENT,first_name varchar(100),last_name varchar(100),user_name varchar(100),email_address varchar(100),role_id bigint not null,phone_number varchar(100),hash_code varchar(100),active boolean default false,last_viewed timestamp,visit_count bigint default 0,
+primary key(user_id),FOREIGN KEY (role_id) REFERENCES role(role_id))
+
+create table user_log (id bigint NOT NULL AUTO_INCREMENT,user_id bigint NOT NULL,action int NOT NULL,value varchar(100),comment varchar(100),date_ timestamp default current_timestamp,PRIMARY KEY(id),FOREIGN KEY (user_id) REFERENCES user_(user_id))
+
+create table location (location_id int NOT NULL AUTO_INCREMENT,city varchar(100),state varchar(100),country varchar(100),primary key(location_id));
+
+create table address(id bigint not null auto_increment, user_id bigint,first_name varchar(100), last_name varchar(100), name1 varchar(100), name2 varchar(100), addr1 varchar(1000), addr2 varchar(1000),city varchar(100), state varchar(100), country varchar(100), zip_code varchar(50), email_address varchar(500), phone_number varchar(100), is_default boolean default false,is_removed boolean default false,last_used timestamp,date_added timestamp default current_timestamp primary key(id))
+
+create table seller(seller_id bigint not null auto_increment,brand_name varchar(500),location_id bigint, address_id bigint, website varchar(5000), description varchar(5000), date_added timestamp default current_timestamp, date_modified timestamp, primary key(seller_id), foreign key (address_id) references address(id));
+
+create table node(node_id bigint not null auto_increment,parent_node_id bigint,name varchar(100), description varchar(5000),num_products bigint default 0,is_valid boolean default true, date_added timestamp default current_timestamp, date_modified timestamp, display_in_header boolean, primary key(node_id));
+
+create table node_image(id bigint not null auto_increment,node_id bigint, name varchar(100), url varchar(1000), is_default boolean default false, date_added timestamp default current_timestamp, date_modified timestamp, primary key(id), foreign key(node_id) references node(node_id));
+
+create table category(category_id bigint not null auto_increment,parent_id bigint, node_id bigint,name varchar(100), description varchar(5000), date_added timestamp default current_timestamp, date_modified timestamp, primary key(category_id), foreign key(node_id) references node(node_id));
+
+create table category_image(id bigint not null auto_increment,category_id bigint, name varchar(100), url varchar(1000), is_default boolean default false, date_added timestamp default current_timestamp, date_modified timestamp, primary key(id), foreign key(category_id) references category(category_id));
+
+create table product(product_id bigint not null auto_increment,category_id bigint, node_id bigint, name varchar(1000), description varchar(5000), date_added timestamp default current_timestamp, date_modified timestamp, primary key(product_id));
+
+create table product_image(id bigint not null auto_increment,product_id bigint, name varchar(100), url varchar(1000), is_default boolean default false, date_added timestamp default current_timestamp, date_modified timestamp, primary key(id), foreign key(product_id) references product(product_id));
+
+create table ptitle(ptitle_id bigint not null auto_increment,product_id bigint, name varchar(100), description varchar(5000), is_default boolean default false, date_added timestamp default current_timestamp, date_modified timestamp, primary key(ptitle_id), foreign key(product_id) references product(product_id));
+
+create table prod_attribute(attr_id bigint not null auto_increment,product_id bigint,ptitle_id bigint,name varchar(100), value_ varchar(1000), description varchar(5000), is_shared boolean default false, date_added timestamp default current_timestamp, date_modified timestamp, primary key(attr_id), foreign key(product_id) references product(product_id), foreign key(ptitle_id) references ptitle(ptitle_id));
+
+create table unit_type(id bigint not null auto_increment,name varchar(100), primary key(id) );
+
+create table tag (tag_id bigint not null auto_increment, ptitle_id bigint, product_id bigint, seller_id bigint, unit_size double, unit_type_id bigint, price_per_unit double,margin_per_cent double, is_valid boolean default true,in_stock boolean default true, date_added timestamp default current_timestamp, date_modified timestamp, primary key(tag_id), foreign key(product_id) references product(product_id), foreign key(ptitle_id) references ptitle(ptitle_id), foreign key(seller_id) references seller(seller_id), foreign key(unit_type_id) references unit_type(id));
+
+create table base_ctr(product_id bigint not null,ptitle_id bigint not null,tag_id bigint,clicks bigint default 0, sales bigint default 0, ctr double default -1,last_modified timestamp default current_timestamp, foreign key(ptitle_id) references ptitle(ptitle_id), foreign key(product_id) references product(product_id), foreign key(tag_id) references tag(tag_id));
+
+create table ptitle_image(id bigint not null auto_increment,ptitle_id bigint, name varchar(100), url varchar(1000), is_default boolean default false, date_added timestamp default current_timestamp, date_modified timestamp, primary key(id), foreign key(ptitle_id) references ptitle(ptitle_id));
+
+create table seller_rating (seller_id bigint not NULL,user_id bigint not null,thumbs_up boolean,thumbs_down boolean,rating int,comment varchar(10000),foreign key(seller_id) references seller(seller_id), date_added timestamp default current_timestamp, date_modified timestamp default current_timestamp,foreign key(user_id) references user_(user_id))
+
+create table cart(cart_id bigint not null auto_increment,user_id bigint not null,total_amount bigint default 0,coupon_id bigint default -1,discounted_amount bigint,created timestamp default current_timestamp, modified timestamp,state varchar(20), primary key(cart_id));
+
+create table cart_item(cart_item_id bigint not null auto_increment,cart_id bigint,tag_id bigint,ptitle_id bigint,seller_id bigint, quantity long, price_per_unit bigint,created timestamp default current_timestamp, modified timestamp,is_removed boolean default false,primary key(cart_item_id),foreign key(tag_id) references tag(tag_id),foreign key(cart_id) references cart(cart_id),foreign key(seller_id) references seller(seller_id),foreign key(ptitle_id) references ptitle(ptitle_id));
+
+create table coupon(id bigint not null auto_increment,code varchar(100),discount int(2),scope varchar(50), mapping_id bigint, is_onetime boolean false, is_used boolean false, to_ date, created timestamp default current_timestamp, primary key(id))
+
+create table order_(order_id bigint not null auto_increment,user_id bigint,cart_id bigint, shipping_address_id bigint,billing_address_id bigint,total_amount bigint default 0,coupon_id bigint,discount bigint,delivery_charge bigint,tax_id bigint, tax_amount bigint,amount_paid bigint, trans_id bigint,notes varchar(5000),created timestamp default current_timestamp, modified timestamp,state varchar(20), primary key(order_id), foreign key(cart_id) references cart(cart_id));
+
+create table order_item(order_item_id bigint not null auto_increment,order_id bigint,cart_item_id bigint, tag_id bigint,ptitle_id bigint,name varchar(100),seller_id bigint, quantity long, price_per_unit bigint,total_price bigint,created timestamp default current_timestamp, modified timestamp,is_removed boolean default false,primary key(order_item_id),foreign key(tag_id) references tag(tag_id),foreign key(order_id) references order_(order_id),foreign key(seller_id) references seller(seller_id),foreign key(ptitle_id) references ptitle(ptitle_id));
+
+create table tax(id bigint not null auto_increment, name varchar(100), percent decimal(4,2), primary key(id));
+
+create table mid_trans (trans_id bigint not null auto_increment, date_ timestamp default current_timestamp, order_id bigint not null, user_id bigint not null,source varchar(20), tracking_id varchar(50), bank_ref_no varchar(50), trans_status varchar(50), failure_msg varchar(200), mode varchar(50), card_name varchar(200), status_code varchar(10), status_msg varchar(200), currency varchar(10), amount double, primary key(trans_id));
+
+create table trans (trans_id bigint not null auto_increment, date_ timestamp default current_timestamp, order_id bigint not null, user_id bigint not null,mid_trans_id bigint,amount_charged decimal,currency varchar(10),source varchar(20), tracking_id varchar(50), notes varchar(1000), primary key(trans_id));
+
+create table admin_date (name varchar(50), value timestamp,primary key(name));
+
+create table click (click_id bigint not null auto_increment,click_time timestamp default current_timestamp, tag_id bigint,ptitle_id bigint, product_id bigint, source varchar(100), primary key(click_id));
+
+create table sales_track (sales_track_id bigint not null auto_increment,sale_time timestamp default current_timestamp, tag_id bigint,ptitle_id bigint, product_id bigint, quantity bigint, seller_id bigint, source varchar(100), primary key(sales_track_id));
+
+create table invoice(invoice_id bigint not null auto_increment,user_id bigint, order_id bigint, billing_address_id bigint, shipping_address_id bigint,total_amount bigint,discount bigint,delivery_charge bigint,tax_amount double, invoice_amount bigint, trans_id bigint,notes varchar(1000),created timestamp default current_timestamp, state varchar(20), primary key(invoice_id));
+
+create table invoice_line(invoice_line_id bigint not null auto_increment,invoice_id bigint, tag_id bigint,quantity bigint,price_per_unit bigint,total_price bigint,created timestamp default current_timestamp,primary key(invoice_line_id), foreign key(invoice_id) references invoice(invoice_id));
+
+create table review(id bigint not null auto_increment, user_id bigint, title varchar(500), description varchar(5000), thumbs_up int, thumbs_down int, review_type varchar(20),date_added timestamp default current_timestamp, date_modified timestamp, primary key(id));
+
+create table subscriber(email varchar(1000), subscription_type varchar(50), subscribed_to varchar(50), when_ timestamp default current_timestamp);
+
+create table ptitle_rating(id bigint not null auto_increment, ptitle_id bigint, product_id bigint, tag_id bigint, user_id bigint,thumbs_up int, thumbs_down int, rating int, review_id bigint,comment varchar(1000), verified boolean default false,date_added timestamp default current_timestamp, date_modified timestamp, primary key(id)); 
+
+create table testimonial(id bigint not null auto_increment, user_id bigint, title varchar(500), description varchar(5000), user_name varchar(20), seq_no int(2),image_url varchar(5000),verified boolean default false, date_added timestamp default current_timestamp, date_modified timestamp, primary key(id));
+
+create table vendor_sourcing (id bigint not null auto_increment, brand_name varchar(200), best_product varchar(1000), best_price varchar(200), second_best_product varchar(1000), second_best_price varchar(200), addrId bigint, website varchar(1000), other_info varchar(2000),date_added timestamp default current_timestamp, primary key(id));
